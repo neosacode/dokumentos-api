@@ -1,1 +1,5 @@
 django>=2.0
+prettyconf
+django-extensions
+dj-database-url
+psycopg2-binary
