@@ -23,15 +23,26 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=config.list)
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'django_extensions',
 ]
+
+LOCAL_APPS = [
+    'core',
+    'documents'
+]
+
+THIRD_PARTY_APPS = [
+    'django_extensions',
+    'rest_framework',
+]
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -43,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'core.Users'
 ROOT_URLCONF = 'dokuments_api.urls'
 
 TEMPLATES = [
@@ -60,6 +72,14 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 WSGI_APPLICATION = 'dokuments_api.wsgi.application'
 

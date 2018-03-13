@@ -1,5 +1,9 @@
-django>=2.0
-prettyconf
-django-extensions
+Django>=2.0
 dj-database-url
+django-extensions
+django-filter
+django-model-utils
+djangorestframework
+Markdown
+prettyconf
 psycopg2-binary
