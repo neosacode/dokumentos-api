@@ -12,7 +12,6 @@ class BaseModel(models.Model):
 
 
 class Users(TimeStampedModel, AbstractUser, BaseModel):
-
     default_webhook = models.URLField()
     default_pending_message = models.TextField()
     default_valid_message = models.TextField()
