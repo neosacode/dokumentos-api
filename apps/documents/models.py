@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
-from documents.choices import STATUS_CHOICES
+from apps.documents.choices import STATUS_CHOICES
 from django.conf import settings
-from core.models import BaseModel
+from apps.core.models import BaseModel
 
 user_model = settings.AUTH_USER_MODEL
 

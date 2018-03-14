@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from documents.models import Documents
+from apps.documents.models import Documents
 
 
 class DocumentsSerializer(serializers.ModelSerializer):

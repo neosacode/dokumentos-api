@@ -33,8 +33,8 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    'core',
-    'documents'
+    'apps.core',
+    'apps.documents'
 ]
 
 THIRD_PARTY_APPS = [

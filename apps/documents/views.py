@@ -1,5 +1,5 @@
-from documents.serializers import DocumentsSerializer
-from documents.models import Documents
+from apps.documents.serializers import DocumentsSerializer
+from apps.documents.models import Documents
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
