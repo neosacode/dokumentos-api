@@ -3,7 +3,7 @@
 ### .env
 This file contains configurations about instance:
 - `SECRET_KEY=your_secret_key`
-Used to generate a hash for prevent atacks
+Used to generate a hash to prevent atacks
 
 - DEBUG=True
 To show error messages
