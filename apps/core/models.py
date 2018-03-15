@@ -19,5 +19,5 @@ class User(TimeStampedModel, AbstractUser, BaseModel):
     default_invalid_message = models.TextField()
 
     class Meta:
-            verbose_name = _('user')
-            verbose_name_plural = _('users')
+            verbose_name = _('User')
+            verbose_name_plural = _('Users')

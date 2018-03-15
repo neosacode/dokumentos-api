@@ -16,8 +16,8 @@ class Type(BaseModel):
         return self.name
 
     class Meta:
-        verbose_name = _('type')
-        verbose_name_plural = _('types')
+        verbose_name = _('Type')
+        verbose_name_plural = _('Types')
 
 
 class Model(BaseModel):
@@ -28,8 +28,8 @@ class Model(BaseModel):
         return self.name
 
     class Meta:
-        verbose_name = _('model')
-        verbose_name_plural = _('models')
+        verbose_name = _('Model')
+        verbose_name_plural = _('Models')
 
 
 class Country(BaseModel):
@@ -40,11 +40,11 @@ class Country(BaseModel):
         return self.name
 
     class Meta:
-        verbose_name = _('country')
-        verbose_name_plural = _('countrys')
+        verbose_name = _('Country')
+        verbose_name_plural = _('Countrys')
 
 
-class Documents(TimeStampedModel, BaseModel):
+class Document(TimeStampedModel, BaseModel):
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     model = models.ForeignKey(Model, on_delete=models.CASCADE)
@@ -54,5 +54,5 @@ class Documents(TimeStampedModel, BaseModel):
     webhook = models.URLField()
 
     class Meta:
-        verbose_name = _('document')
-        verbose_name_plural = _('documents')
+        verbose_name = _('Document')
+        verbose_name_plural = _('Documents')
