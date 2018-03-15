@@ -10,35 +10,38 @@ user_model = settings.AUTH_USER_MODEL
 
 class Type(BaseModel):
     name = models.CharField(max_length=100)
-    abbs = models.CharField(max_length=50)
+    abbr = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = _('type')
+        verbose_name_plural = _('types')
 
 
 class Model(BaseModel):
     name = models.CharField(max_length=100)
-    abbs = models.CharField(max_length=50)
+    abbr = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = _('model')
+        verbose_name_plural = _('models')
 
 
 class Country(BaseModel):
     name = models.CharField(max_length=100)
-    abbs = models.CharField(max_length=50)
+    abbr = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = _('country')
+        verbose_name_plural = _('countrys')
 
 
 class Documents(TimeStampedModel, BaseModel):
@@ -52,3 +55,4 @@ class Documents(TimeStampedModel, BaseModel):
 
     class Meta:
         verbose_name = _('document')
+        verbose_name_plural = _('documents')
