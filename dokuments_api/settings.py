@@ -33,13 +33,14 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    'core',
-    'documents'
+    'apps.core',
+    'apps.documents'
 ]
 
 THIRD_PARTY_APPS = [
     'django_extensions',
     'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -54,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-AUTH_USER_MODEL = 'core.Users'
+
 ROOT_URLCONF = 'dokuments_api.urls'
 
 TEMPLATES = [
@@ -108,7 +109,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+# Overwrite defaul user model
+AUTH_USER_MODEL = 'core.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
