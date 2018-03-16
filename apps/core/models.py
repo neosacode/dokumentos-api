@@ -18,6 +18,14 @@ class User(TimeStampedModel, AbstractUser, BaseModel):
     default_valid_message = models.TextField()
     default_invalid_message = models.TextField()
 
+    def save(self, *args, **kwargs):
+        """
+         Use to hash user password
+        """
+        self.set_password(self.password)
+
+        return super(User, self).save()
+
     class Meta:
             verbose_name = _('User')
             verbose_name_plural = _('Users')
