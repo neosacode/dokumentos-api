@@ -1,8 +1,7 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins, authentication, permissions
 from rest_framework.generics import CreateAPIView
-from rest_framework import authentication, permissions
 from django.contrib.auth import get_user_model
-from apps.core import serializers
+from apps.core import serializers, authentication as core_authentication
 
 
 class CreateUserView(CreateAPIView):
@@ -11,9 +10,12 @@ class CreateUserView(CreateAPIView):
     serializer_class = serializers.CreateUserSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(mixins.RetrieveModelMixin, 
+				  mixins.UpdateModelMixin, 
+				  mixins.ListModelMixin, 
+				  viewsets.GenericViewSet):
     serializer_class = serializers.UserSerializer
-    authentication_classes = (authentication.SessionAuthentication, authentication.TokenAuthentication,)
+    authentication_classes = (authentication.SessionAuthentication, core_authentication.BearerTokenAuthentication,)
 
     def get_queryset(self):
         return [self.request.user]
