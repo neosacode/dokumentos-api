@@ -28,4 +28,4 @@ Define wich host can acess the system
 DATABASE_URL=postgres://db_username:db_password@db_host_ip_or_domain:5432/db_database_name
 ``
 
-Sets the Dokuments database using a URL scheme provided by the [dj-database-url](https://github.com/kennethreitz/dj-database-url) Django package.
+Sets the Dokumentos database using a URL scheme provided by the [dj-database-url](https://github.com/kennethreitz/dj-database-url) Django package.

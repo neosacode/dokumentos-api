@@ -3,7 +3,11 @@ dj-database-url
 django-extensions
 django-filter
 django-model-utils
+django-redis-sessions
 djangorestframework
 Markdown
 prettyconf
 psycopg2-binary
+psycogreen
+gevent
+uwsgi

@@ -2,6 +2,7 @@ import os
 
 import dj_database_url
 from prettyconf import Configuration
+from dokumentos_api.casts import redis_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -56,7 +57,7 @@ MIDDLEWARE = [
 ]
 
 
-ROOT_URLCONF = 'dokuments_api.urls'
+ROOT_URLCONF = 'dokumentos_api.urls'
 
 TEMPLATES = [
     {
@@ -84,7 +85,7 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 10
 }
 
-WSGI_APPLICATION = 'dokuments_api.wsgi.application'
+WSGI_APPLICATION = 'dokumentos_api.wsgi.application'
 
 
 # Database
@@ -93,6 +94,11 @@ WSGI_APPLICATION = 'dokuments_api.wsgi.application'
 DATABASES = {}
 DATABASES['default'] = dj_database_url.parse(config('DATABASE_URL'))
 
+# Redis session config
+SESSION_REDIS = config('REDIS_URL', default=None, cast=redis_url)
+
+if SESSION_REDIS:
+    SESSION_ENGINE = 'redis_sessions.session'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
