@@ -1,7 +1,9 @@
 from django.urls import path
 from apps.documents import views
 
-urlpatterns = [
-    path('documents/', views.DocumentsList.as_view()),
-    path('documents/<pk>', views.DocumentDetail.as_view()),
-]
+from apps.documents import views
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'documents', views.DocumentViewSet, base_name='documents')
+urlpatterns = router.urls
