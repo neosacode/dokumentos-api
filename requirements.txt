@@ -9,6 +9,6 @@ Markdown
 prettyconf
 psycopg2-binary
 psycogreen
-eventlet
+gevent
 gunicorn
 whitenoise
