@@ -1,1 +1,1 @@
-web: uwsgi uwsgi.ini
+web: gunicorn -c gunicorn_config.py
