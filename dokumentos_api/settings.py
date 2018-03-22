@@ -86,6 +86,19 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = 'dokumentos_api.wsgi.application'
 
+# Security options
+SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=True, cast=config.boolean)
+SECURE_CONTENT_TYPE_NOSNIFF = config('SECURE_CONTENT_TYPE_NOSNIFF', default=True, cast=config.boolean)
+SECURE_BROWSER_XSS_FILTER = config('SECURE_BROWSER_XSS_FILTER', default=True, cast=config.boolean)
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=config.boolean)
+SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=True, cast=config.boolean)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=True, cast=config.boolean)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=config.boolean)
+SESSION_COOKIE_HTTPONLY = config('SESSION_COOKIE_HTTPONLY', default=True, cast=config.boolean)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=config.boolean)
+CSRF_COOKIE_HTTPONLY = config('CSRF_COOKIE_HTTPONLY', default=True, cast=config.boolean)
+X_FRAME_OPTIONS = config('X_FRAME_OPTIONS', default='DENY')
+
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
