@@ -5,6 +5,6 @@ preload_app = True
 
 def pre_fork(server, worker):
     import gevent.monkey
-	import psycogreen.gevent
-	gevent.monkey.patch_all()
-	psycogreen.gevent.patch_psycopg()
+    import psycogreen.gevent
+    gevent.monkey.patch_all()
+    psycogreen.gevent.patch_psycopg()
