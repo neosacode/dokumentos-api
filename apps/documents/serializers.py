@@ -19,3 +19,10 @@ class DocumentSerializer(ModelWithUserSerializer):
     class Meta:
         model = Document
         fields = ('type', 'country', 'model', 'file', 'status', 'webhook')
+        extra_kwargs = {'status': {'required': False}, 'file': {'required': False}}
+
+
+class CreateDocumentSerializer(DocumentSerializer):
+    class Meta:
+        model = Document
+        fields = ('type', 'country', 'model', 'webhook')

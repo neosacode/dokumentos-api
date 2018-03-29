@@ -106,11 +106,17 @@ X_FRAME_OPTIONS = config('X_FRAME_OPTIONS', default='DENY')
 DATABASES = {}
 DATABASES['default'] = dj_database_url.parse(config('DATABASE_URL'))
 
+
+# S3 Bucket
+S3_BUCKET = config('S3_BUCKET')
+
+
 # Redis session config
 SESSION_REDIS = config('REDIS_URL', default=None, cast=redis_url)
 
 if SESSION_REDIS:
     SESSION_ENGINE = 'redis_sessions.session'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
