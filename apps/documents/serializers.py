@@ -15,7 +15,7 @@ class DocumentSerializer(ModelWithUserSerializer):
     country = serializers.SlugRelatedField(slug_field='abbr', queryset=Country.objects.all())
     type = serializers.SlugRelatedField(slug_field='abbr', queryset=Type.objects.all())
     model = serializers.SlugRelatedField(slug_field='abbr', queryset=Model.objects.all())
-
+    
     class Meta:
         model = Document
         fields = ('type', 'country', 'model', 'file', 'status', 'webhook')
