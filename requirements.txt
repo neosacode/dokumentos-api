@@ -12,3 +12,4 @@ psycogreen
 gevent
 gunicorn
 whitenoise
+boto3
