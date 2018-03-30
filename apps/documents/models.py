@@ -8,9 +8,21 @@ from apps.core.models import BaseModel
 user_model = settings.AUTH_USER_MODEL
 
 
+class Country(BaseModel):
+    name = models.CharField(max_length=100)
+    abbr = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Country')
+        verbose_name_plural = _('Countrys')
+
+
 class Type(BaseModel):
     name = models.CharField(max_length=100)
-    abbr = models.CharField(max_length=50)
+    abbr = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
@@ -21,6 +33,8 @@ class Type(BaseModel):
 
 
 class Model(BaseModel):
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='models', null=True)
+    type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='models', null=True)
     name = models.CharField(max_length=100)
     abbr = models.CharField(max_length=50)
 
@@ -30,18 +44,7 @@ class Model(BaseModel):
     class Meta:
         verbose_name = _('Model')
         verbose_name_plural = _('Models')
-
-
-class Country(BaseModel):
-    name = models.CharField(max_length=100)
-    abbr = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('Country')
-        verbose_name_plural = _('Countrys')
+        unique_together = (("country", "type", "abbr"),)
 
 
 class Document(TimeStampedModel, BaseModel):
