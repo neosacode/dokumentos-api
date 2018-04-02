@@ -5,29 +5,31 @@ import factory
 
 class TypeModelFactory(factory.django.DjangoModelFactory):
 
-    class Meta:
-        model = Type
-
     name = 'identification'
     abbr = 'IDT'
+
+    class Meta:
+        model = Type
+        django_get_or_create = ('abbr',)
+
+
+class CountryModelFactory(factory.django.DjangoModelFactory):
+    name = 'BRAZIL'
+    abbr = 'BRL'
+
+    class Meta:
+        model = Country
+        django_get_or_create = ('abbr',)
 
 
 class ModelModelFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Model
-
+    country = factory.SubFactory(CountryModelFactory)
+    type = factory.SubFactory(TypeModelFactory)
     name = 'Carteira Nacional de Habilitação'
     abbr = 'CNH'
-
-
-class CountryModelFactory(factory.django.DjangoModelFactory):
-
-    class Meta:
-        model = Country
-
-    name = 'BRAZIL'
-    abbr = 'BRL'
 
 
 class DocumentModelFactory(factory.django.DjangoModelFactory):

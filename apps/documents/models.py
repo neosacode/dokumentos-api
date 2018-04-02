@@ -48,6 +48,7 @@ class Model(BaseModel):
 
 
 class Document(TimeStampedModel, BaseModel):
+    ref = models.CharField(max_length=300, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     model = models.ForeignKey(Model, on_delete=models.CASCADE)

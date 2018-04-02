@@ -15,14 +15,15 @@ class DocumentSerializer(ModelWithUserSerializer):
     country = serializers.SlugRelatedField(slug_field='abbr', queryset=Country.objects.all())
     type = serializers.SlugRelatedField(slug_field='abbr', queryset=Type.objects.all())
     model = serializers.SlugRelatedField(slug_field='abbr', queryset=Model.objects.all())
-    
+
     class Meta:
         model = Document
-        fields = ('type', 'country', 'model', 'file', 'status', 'webhook')
-        extra_kwargs = {'status': {'required': False}, 'file': {'required': False}}
+        fields = ('ref', 'type', 'country', 'model', 'file', 'status', 'webhook')
+        extra_kwargs = {'status': {'required': False}, 'file': {'required': False}, 'ref': {'required': True}}
 
 
 class CreateDocumentSerializer(DocumentSerializer):
+
     class Meta:
         model = Document
         fields = ('type', 'country', 'model', 'webhook')
