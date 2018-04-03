@@ -37,6 +37,9 @@ class DocumentModelFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Document
 
+    ref = 'someref'
+    file = 'htts://www.algumsite.com/file.png'
+    status = 'pending'
     country = factory.SubFactory(CountryModelFactory)
     type = factory.SubFactory(TypeModelFactory)
     model = factory.SubFactory(ModelModelFactory)

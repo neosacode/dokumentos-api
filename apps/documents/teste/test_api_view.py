@@ -3,7 +3,10 @@ from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from apps.documents import views
 from django.contrib.auth import get_user_model
-from apps.documents.models import Country, Type, Model
+from apps.documents.teste.factories import (TypeModelFactory,
+                                            ModelModelFactory,
+                                            CountryModelFactory,
+                                            )
 
 
 class TestDocument(APITestCase):
@@ -13,9 +16,9 @@ class TestDocument(APITestCase):
         self.uri = '/documents/'
         self.user = self.setup_user()
         self.client = APIClient()
-        self.country = Country.objects.create(name='Brazil', abbr='BRL')
-        self.type = Type.objects.create(name='Carteira de Motorista', abbr='CNH')
-        self.model = Model.objects.create(name='Identificação', abbr='ID')
+        self.country = CountryModelFactory()
+        self.type = TypeModelFactory()
+        self.model = ModelModelFactory()
 
     def setup_user(self):
         User = get_user_model()
@@ -45,6 +48,7 @@ class TestDocument(APITestCase):
                 'model': self.model.abbr,
                 'user': self.user,
                 'status': 'pending',
+                'ref': 'someref',
             }
         response = self.client.post(self.uri, params)
         self.assertEqual(response.status_code, 201,

@@ -33,8 +33,8 @@ class Type(BaseModel):
 
 
 class Model(BaseModel):
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='models', null=True)
-    type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='models', null=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='models')
+    type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='models')
     name = models.CharField(max_length=100)
     abbr = models.CharField(max_length=50)
 
@@ -48,7 +48,8 @@ class Model(BaseModel):
 
 
 class Document(TimeStampedModel, BaseModel):
-    ref = models.CharField(max_length=300, null=True)
+    ref = models.CharField(max_length=300)
+    error = models.CharField(max_length=300, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     model = models.ForeignKey(Model, on_delete=models.CASCADE)
