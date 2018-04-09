@@ -1,8 +1,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+from django.contrib.postgres.fields import JSONField
 from model_utils.models import TimeStampedModel
 from apps.documents.choices import STATUS_CHOICES
-from django.conf import settings
 from apps.core.models import BaseModel
 
 user_model = settings.AUTH_USER_MODEL
@@ -50,8 +51,6 @@ class Model(BaseModel):
 class Document(TimeStampedModel, BaseModel):
     ref = models.CharField(max_length=300)
     error = models.CharField(max_length=300, null=True)
-    type = models.ForeignKey(Type, on_delete=models.CASCADE)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
     model = models.ForeignKey(Model, on_delete=models.CASCADE)
     file = models.URLField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, verbose_name=_("status"))
@@ -61,3 +60,8 @@ class Document(TimeStampedModel, BaseModel):
     class Meta:
         verbose_name = _('Document')
         verbose_name_plural = _('Documents')
+
+
+class Requests(BaseModel):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    data = JSONField()

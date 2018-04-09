@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.documents.models import Document, Country, Type, Model
+from apps.documents.models import Document, Model
 
 
 class ModelWithUserSerializer(serializers.ModelSerializer):
@@ -11,18 +11,23 @@ class ModelWithUserSerializer(serializers.ModelSerializer):
 
 
 class DocumentSerializer(ModelWithUserSerializer):
-    # overwrite for can user str fields
-    country = serializers.SlugRelatedField(slug_field='abbr', queryset=Country.objects.all())
-    type = serializers.SlugRelatedField(slug_field='abbr', queryset=Type.objects.all())
-    model = serializers.SlugRelatedField(slug_field='abbr', queryset=Model.objects.all())
-
     class Meta:
         model = Document
         fields = ('ref', 'type', 'country', 'model', 'file', 'status', 'webhook')
-        extra_kwargs = {'status': {'required': False}, 'file': {'required': False}, 'ref': {'required': True}}
 
 
 class CreateDocumentSerializer(DocumentSerializer):
+    country = serializers.CharField()
+    type = serializers.CharField()
+    model = serializers.CharField()
+
+    def validate(self, data):
+        kwargs = dict(type__abbr=data['type'], country__abbr=data['country'], abbr=data['model'])
+        model_qs = Model.objects.filter(**kwargs)
+        if not model_qs.exists():
+            raise serializers.ValidationError("Country/Type don't match with Model")
+        self.model = model_qs.first()
+        return super().validate(data)
 
     class Meta:
         model = Document

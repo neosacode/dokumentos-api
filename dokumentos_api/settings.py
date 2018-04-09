@@ -35,13 +35,14 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [
     'apps.core',
-    'apps.documents'
+    'apps.documents',
+    'apps.webhook',
 ]
 
 THIRD_PARTY_APPS = [
     'django_extensions',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -110,6 +111,10 @@ DATABASES['default'] = dj_database_url.parse(config('DATABASE_URL'))
 # S3 Bucket
 S3_BUCKET = config('S3_BUCKET')
 
+# Webhook engine
+
+WEBHOOK_MAXIMUM_STACK_SIZE = config('WEBHOOK_MAXIMUM_STACK_SIZE', default=30, cast=int)
+WEBHOOK_QUEUE_NAME = config('WEBHOOK_QUEUE_NAME')
 
 # Redis session config
 SESSION_REDIS = config('REDIS_URL', default=None, cast=redis_url)
