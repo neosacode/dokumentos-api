@@ -31,4 +31,4 @@ class CreateDocumentSerializer(DocumentSerializer):
 
     class Meta:
         model = Document
-        fields = ('type', 'country', 'model', 'webhook')
+        fields = ('ref', 'type', 'country', 'model', 'webhook')

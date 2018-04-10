@@ -57,7 +57,7 @@ class Document(TimeStampedModel, BaseModel):
     file = models.URLField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, verbose_name=_("status"))
     user = models.ForeignKey(user_model, related_name='user', on_delete=models.CASCADE)
-    webhook = models.URLField(blank=True, null=True)
+    webhook = models.URLField()
     request_id = models.UUIDField(default=uuid.uuid4, null=True)
 
     class Meta:

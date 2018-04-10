@@ -22,8 +22,9 @@ class DocumentViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
     def create(self, request, *args, **kwargs):
         serializer = CreateDocumentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
-        data = dict(model_id=str(serializer.model.pk), user_id=str(request.user.pk))
+        ref = serializer.validated_data['ref']
+        webhook = serializer.validated_data['webhook']
+        data = dict(model_id=str(serializer.model.pk), user_id=str(request.user.pk), ref=str(ref), webhook=str(webhook))
         document_request = Requests.objects.create(data=data)
         metadata = {'x-amz-meta-request': str(document_request.pk)}
         conditions = [{k: v} for k, v in metadata.items()]
