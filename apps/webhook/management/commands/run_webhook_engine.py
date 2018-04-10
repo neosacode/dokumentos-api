@@ -41,5 +41,5 @@ while True:
 	if stack_size == 0:
 		time.sleep(60)
 
-	gevent.wait([gevent.spawn(fire_webhook, s3, i.bucket, i.key) for i in stack[:MAXIMUM_STACK_SIZE]])
+	gevent.wait([gevent.spawn(fire_webhook, s3, message, i.bucket, i.key) for i in stack[:MAXIMUM_STACK_SIZE]])
 	stack[:] = []

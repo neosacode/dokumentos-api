@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -56,6 +58,7 @@ class Document(TimeStampedModel, BaseModel):
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, verbose_name=_("status"))
     user = models.ForeignKey(user_model, related_name='user', on_delete=models.CASCADE)
     webhook = models.URLField(blank=True, null=True)
+    request_id = models.UUIDField(default=uuid.uuid4, null=True)
 
     class Meta:
         verbose_name = _('Document')

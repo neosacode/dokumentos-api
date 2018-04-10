@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Country, Document, Model, Type
-# Register your models here.
+from apps.documents.models import Country, Document, Model, Type
 
 admin.site.register(Country)
 admin.site.register(Document)
