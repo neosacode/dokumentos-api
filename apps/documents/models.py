@@ -55,10 +55,21 @@ class Document(TimeStampedModel, BaseModel):
     error = models.CharField(max_length=300, null=True)
     model = models.ForeignKey(Model, on_delete=models.CASCADE)
     file = models.URLField()
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, verbose_name=_("status"))
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, verbose_name=_("status"), default=STATUS_CHOICES.pending)
     user = models.ForeignKey(user_model, related_name='user', on_delete=models.CASCADE)
     webhook = models.URLField()
+    tries = models.IntegerField(default=0)
     request_id = models.UUIDField(default=uuid.uuid4, null=True)
+    is_ready = models.BooleanField(default=False)
+    contains = JSONField(default={})
+
+    def __str__(self):
+        return '{} | {} - {} - {}'.format(self.user.username, self.model.country.name, self.model.type.name, self.model.name)
+
+    def increment_tries(self, error):
+        self.error = error
+        self.tries += 1
+        self.save()
 
     class Meta:
         verbose_name = _('Document')

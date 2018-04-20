@@ -9,11 +9,13 @@ from django.conf import settings
 from munch import DefaultMunch as munch
 
 
-from apps.webhook.task import fire_webhook
+from apps.documents.models import Document
+from apps.webhook.task import create_document, fire_webhook
 
 
 
 MAXIMUM_STACK_SIZE = settings.WEBHOOK_MAXIMUM_STACK_SIZE
+MAXIMUM_TRIES = settings.WEBHOOK_MAXIMUM_TRIES
 QUEUE_NAME = settings.WEBHOOK_QUEUE_NAME
 
 sqs = boto3.resource('sqs')
@@ -36,10 +38,17 @@ while True:
 	stack_size = len(stack)
 
 	if previous_stack_size != stack_size and stack_size < MAXIMUM_STACK_SIZE:
-		continue
+		continue	
+
+	# Process SQS document messages
+	gevent.wait([gevent.spawn(create_document, s3, message, i.bucket, i.key) for i in stack[:MAXIMUM_STACK_SIZE]])
+
+	# Process documents who should be webhooked
+	documents_qs = Document.objects.filter(tries__lt=MAXIMUM_TRIES, is_ready=False)
+	gevent.wait([gevent.spawn(fire_webhook, document) for document in documents_qs[:MAXIMUM_STACK_SIZE]])
 
 	if stack_size == 0:
-		time.sleep(60)
+		time.sleep(5)
 
-	gevent.wait([gevent.spawn(fire_webhook, s3, message, i.bucket, i.key) for i in stack[:MAXIMUM_STACK_SIZE]])
+	# Erase stack for a new greenlet batch generation
 	stack[:] = []

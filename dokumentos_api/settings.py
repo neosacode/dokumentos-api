@@ -114,6 +114,7 @@ S3_BUCKET = config('S3_BUCKET')
 # Webhook engine
 
 WEBHOOK_MAXIMUM_STACK_SIZE = config('WEBHOOK_MAXIMUM_STACK_SIZE', default=30, cast=int)
+WEBHOOK_MAXIMUM_TRIES = config('WEBHOOK_MAXIMUM_TRIES', default=5, cast=int)
 WEBHOOK_QUEUE_NAME = config('WEBHOOK_QUEUE_NAME')
 
 # Redis session config

@@ -1,1 +1,1 @@
-BR_ID_RG = ['name', 'rg']
+BR_ID_CTPS = {'name': str, 'rg': str, 'cpf': str}
