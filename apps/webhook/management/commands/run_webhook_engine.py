@@ -10,7 +10,7 @@ from munch import DefaultMunch as munch
 
 
 from apps.documents.models import Document
-from apps.webhook.task import create_document, fire_webhook
+from apps.webhook.tasks import create_document, fire_webhook
 
 
 

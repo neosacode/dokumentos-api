@@ -2,6 +2,7 @@ import sys
 import importlib
 import requests
 
+from datetime import datetime
 from json import JSONDecodeError
 from urllib.parse import urljoin
 
@@ -10,9 +11,16 @@ from django.conf import settings
 from django.db import transaction
 from apps.documents.models import Requests, Document, Model
 from apps.documents.choices import STATUS_CHOICES
-from apps.documents.exceptions import KeyNotInResponseException
+from apps.webhook.exceptions import KeyNotInResponseException, WordsListException
+from apps.webhook.messages import (DOCUMENT_CREATED_MESSAGE, REQUEST_NOT_FOUND_MESSAGE, 
+                                   DOCUMENT_PREPARED_MESSAGE, INVALID_JSON_MESSAGE)
 
 S3_BASEURL = 'https://s3.amazonaws.com'
+
+
+def print_message(message):
+    print(datetime.now().isoformat(), message)
+    return message
 
 
 def create_document(s3, message, bucket, key):
@@ -28,38 +36,48 @@ def create_document(s3, message, bucket, key):
             document_request.delete()
         
         message.delete()
-        print('Document {} created based on {}'.format(str(document.pk), kwargs))
+        print_message(DOCUMENT_CREATED_MESSAGE.format(document.pk))
+
     except Requests.DoesNotExist:
         message.delete()
-        print('Request {} not found for create a new document'.format(meta_request))
+        print_message(REQUEST_NOT_FOUND_MESSAGE.format(meta_request))
+
+
+def parse_contains_response(validator, contains_response):
+    contains = {}
+    for key, cast in validator.items():
+        if not key in contains_response:
+            raise KeyNotInResponseException(key)
+        contains[key] = cast(contains_response[key])
+    words = contains_response.get('words')
+    if words and not isinstance(words, list):
+        raise WordsListException()
+    return {'words': contains_response.get('words'), **contains}
 
 
 def fire_webhook(document):
     try:
         data = munch()
-        data.request_id = str(document.request_id)
+        data.request_id = document.request_id
         data.ref = document.ref
         data.country = document.model.country.abbr
         data.type = document.model.type.abbr
         data.model = document.model.abbr
 
-        webhook_response = requests.post(document.webhook, data=data.toDict()).json()
+        contains_response = requests.post(document.webhook, data=data.toDict()).json()
         validator_module = importlib.import_module('apps.webhook.validators.{}'.format(data.country.lower()))
         validator_attr_name = '{}_{}_{}'.format(data.country, data.type, data.model)
         validator = getattr(validator_module, validator_attr_name)
 
-        for key, cast in validator.items():
-            if not key in webhook_response:
-                raise KeyNotInResponseException(key)
-            document.contains[key] = cast(webhook_response[key])
-        
-        document.contains['words'] = webhook_response.get('words')
-        document.is_ready = True
-        document.save()
+        contains = parse_contains_response(validator, contains_response)
+        document.send_to_validation(contains)
+        print_message(DOCUMENT_PREPARED_MESSAGE.format(document.pk))
 
-        print('Document "{}" has been prepared to be validated'.format(str(document)))
+    except WordsListException as e:
+        document.increment_tries(print_message(e))
 
     except KeyNotInResponseException as e:
-        document.increment_tries(str(e))
+        document.increment_tries(print_message(e))
+
     except JSONDecodeError as e:
-        document.increment_tries('Response returned an invalid JSON')
+        document.increment_tries(print_message(INVALID_JSON_MESSAGE))

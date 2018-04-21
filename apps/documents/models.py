@@ -71,6 +71,13 @@ class Document(TimeStampedModel, BaseModel):
         self.tries += 1
         self.save()
 
+    def send_to_validation(self, contains):
+        self.error = None
+        self.tries = 0
+        self.is_ready = True
+        self.contains = contains
+        self.save()
+
     class Meta:
         verbose_name = _('Document')
         verbose_name_plural = _('Documents')
