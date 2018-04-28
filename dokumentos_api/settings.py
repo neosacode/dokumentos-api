@@ -37,6 +37,7 @@ LOCAL_APPS = [
     'apps.core',
     'apps.documents',
     'apps.webhook',
+    'apps.ocr',
 ]
 
 THIRD_PARTY_APPS = [
@@ -116,6 +117,10 @@ S3_BUCKET = config('S3_BUCKET')
 WEBHOOK_MAXIMUM_STACK_SIZE = config('WEBHOOK_MAXIMUM_STACK_SIZE', default=30, cast=int)
 WEBHOOK_MAXIMUM_TRIES = config('WEBHOOK_MAXIMUM_TRIES', default=5, cast=int)
 WEBHOOK_QUEUE_NAME = config('WEBHOOK_QUEUE_NAME')
+
+# OCR engine
+
+OCR_GOOGLECLOUD_KEY = config('OCR_GOOGLECLOUD_KEY')
 
 # Redis session config
 SESSION_REDIS = config('REDIS_URL', default=None, cast=redis_url)

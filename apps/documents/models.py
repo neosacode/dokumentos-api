@@ -62,9 +62,19 @@ class Document(TimeStampedModel, BaseModel):
     request_id = models.UUIDField(default=uuid.uuid4, null=True)
     is_ready = models.BooleanField(default=False)
     contains = JSONField(default={})
+    has_contains = models.BooleanField(default=False)
+    ocr = models.TextField(null=True)
 
     def __str__(self):
         return '{} | {} - {} - {}'.format(self.user.username, self.model.country.name, self.model.type.name, self.model.name)
+
+    def set_ocr_text(self, text):
+        self.ocr = text
+        self.save()
+
+    def send_to_recognition(self):
+        self.has_contains = True
+        self.save()
 
     def increment_tries(self, error):
         self.error = error

@@ -25,6 +25,7 @@ class BaseAdmin(admin.ModelAdmin):
 
 @admin.register(Document)
 class DocumentAdmin(BaseAdmin):
-    list_display = ['__str__', 'ref', 'error', 'file', 'webhook', 'request_id', 'is_ready', 'status']
-    search_fields = ['request_id', 'user__username', 'user__email']
+    list_display = ['__str__', 'ref', 'error', 'file', 'webhook', 'request_id', 'is_ready', 'status', 'created']
     list_filter = ['status']
+    search_fields = ['request_id', 'user__username', 'user__email']
+    readonly_fields = ['model', 'status', 'user', 'is_ready', 'error', 'webhook', 'tries', 'contains', 'ref', 'file', 'request_id']

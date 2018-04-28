@@ -2,13 +2,13 @@ import sys
 import importlib
 import requests
 
-from datetime import datetime
 from json import JSONDecodeError
 from urllib.parse import urljoin
 
 from munch import DefaultMunch as munch
 from django.conf import settings
 from django.db import transaction
+from apps.core.utils import print_message
 from apps.documents.models import Requests, Document, Model
 from apps.documents.choices import STATUS_CHOICES
 from apps.webhook.exceptions import KeyNotInResponseException, WordsListException
@@ -16,11 +16,6 @@ from apps.webhook.messages import (DOCUMENT_CREATED_MESSAGE, REQUEST_NOT_FOUND_M
                                    DOCUMENT_PREPARED_MESSAGE, INVALID_JSON_MESSAGE)
 
 S3_BASEURL = 'https://s3.amazonaws.com'
-
-
-def print_message(message):
-    print(datetime.now().isoformat(), message)
-    return message
 
 
 def create_document(s3, message, bucket, key):
